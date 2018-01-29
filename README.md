@@ -12,7 +12,6 @@ This project aims to provide a Word of the Day service for native Japanese speak
   * Incorporate Bootstrap or some equivalent styling package in the front end so that it looks nice
   * Display example sentences in both languages for the word
 * C:
-  * 
   * Add an email service that will send the same data represented on the website to a user each day
 
 ## Use case
