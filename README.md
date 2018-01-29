@@ -1,4 +1,11 @@
-# JEWOTD
+# Japanese to English Word of the Day
+
+### Developers
+
+* Elijah Hursey
+* Evangeline Luciano
+
+## Overview
 
 This project aims to provide a Word of the Day service for native Japanese speakers wanting to learn English.
 
@@ -18,7 +25,7 @@ This project aims to provide a Word of the Day service for native Japanese speak
 
 * The primary intended use case for this product is for native Japanese speakers to have access to a new English word every day.
 
-## Similar Experience
+## Similar Existing Work and Previous Experience
 
 * I have worked in VueJS and Go before in a similar vein where I was responsible for creating an API that provided data to a webpage that I was also responsible for designing. I have not however worked with any sort of email or subscription based service.
 
