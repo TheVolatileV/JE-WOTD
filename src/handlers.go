@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	wordWithNL := getRandomWord()
-	word := strings.Trim(wordWithNL, "\n")
+	word := getRandomWord()
+	fmt.Println(word)
+	if word == "is" || word == "has" || word == "have" {
+		word = getRandomWord()
+	}
 	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", word))
 	if err != nil {
 		fmt.Println(err)
@@ -26,11 +28,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	jaWord := obj.Data[0].Japanese[0].Word
-	engWord := obj.Data[0].Senses[0].English[0]
+	engWords := obj.Data[0].Senses[0].English
 	pos := obj.Data[0].Senses[0].POS
 	out := simpleOutput{
 		jaWord,
-		engWord,
+		engWords,
 		pos,
 	}
 	json.NewEncoder(w).Encode(out)

@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
+	"strings"
 
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
@@ -46,12 +48,16 @@ func waitForShutdown() {
 	<-sigChan
 }
 
+// can do verbs, adjectives, and nouns
+// verbs, adjecs, nouns respectively
 func getRandomWord() string {
-	resp, err := http.Get("https://nlp.fi.muni.cz/projekty/random_word/run.cgi?language_selection=en&word_selection=verbs&model_selection=use&length_selection=&probability_selection=true")
+	url := fmt.Sprintf("https://nlp.fi.muni.cz/projekty/random_word/run.cgi?language_selection=en&word_selection=%s&model_selection=use&length_selection=&probability_selection=true",
+		"verbs")
+	resp, err := http.Get(url)
 	if err != nil {
 		panic(err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	word := string(body)
-	return word
+	return strings.Trim(word, "\n")
 }

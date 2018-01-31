@@ -32,6 +32,6 @@ type dataStruct struct {
 
 type simpleOutput struct {
 	Japanese string   `json:"japanese"`
-	English  string   `json:"english"`
+	English  []string `json:"english"`
 	POS      []string `json:"partOfSpeech"`
 }
