@@ -33,7 +33,7 @@ This project aims to provide a Word of the Day service for native Japanese speak
 
 * Go
 * VueJS
-* JMdict
+* Jisho
 * Database (TBD)
 * Email service (TBD)
 
