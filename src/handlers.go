@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	resp, err := http.Get("http://jisho.org/api/v1/search/words?keyword=house")
+	wordWithNL := getRandomWord()
+	word := strings.Trim(wordWithNL, "\n")
+	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", word))
 	if err != nil {
 		fmt.Println(err)
 	}
