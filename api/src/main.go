@@ -1,18 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
-	"strings"
 
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
 )
+
+var Words = wordsDict{}
 
 func main() {
 	startup()
@@ -22,6 +24,7 @@ func main() {
 func startup() {
 	tcpPort := 80
 	startServer(tcpPort)
+	populateWords()
 }
 
 func startServer(tcpPort int) {
@@ -48,16 +51,26 @@ func waitForShutdown() {
 	<-sigChan
 }
 
-// can do verbs, adjectives, and nouns
-// verbs, adjecs, nouns respectively
-func getRandomWord() string {
-	url := fmt.Sprintf("https://nlp.fi.muni.cz/projekty/random_word/run.cgi?language_selection=en&word_selection=%s&model_selection=use&length_selection=&probability_selection=true",
-		"verbs")
+func populateWords() {
+	url := "https://randomwordgenerator.com/json/words.json"
 	resp, err := http.Get(url)
 	if err != nil {
 		panic(err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
-	word := string(body)
-	return strings.Trim(word, "\n")
+	if err != nil {
+		panic(err)
+	}
+	err = json.Unmarshal(body, &Words)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// can do verbs, adjectives, and nouns
+// verbs, adjecs, nouns respectively
+func getRandomWord() string {
+	//url := fmt.Sprintf("https://nlp.fi.muni.cz/projekty/random_word/run.cgi?language_selection=en&word_selection=%s&model_selection=use&length_selection=&probability_selection=true",
+	//	"verbs")
+	return Words.Data[rand.Intn(len(Words.Data))].Word
 }

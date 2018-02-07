@@ -35,3 +35,9 @@ type simpleOutput struct {
 	English  []string `json:"english"`
 	POS      []string `json:"partOfSpeech"`
 }
+
+type wordsDict struct {
+	Data []struct {
+		Word string `json:"word"`
+	} `json:"data"`
+}
