@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +15,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if word == "is" || word == "has" || word == "have" {
 		word = getRandomWord()
 	}
-	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", word))
+	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", strings.ToLower(word)))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -28,10 +29,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	jaWord := obj.Data[0].Japanese[0].Word
-	engWords := obj.Data[0].Senses[0].English
+	reading := obj.Data[0].Japanese[0].Reading
+
+	var engWords []string
+	if len(obj.Data[0].Senses[0].English) >= 4 {
+		engWords = obj.Data[0].Senses[0].English[:4]
+	} else {
+		engWords = obj.Data[0].Senses[0].English
+	}
+
 	pos := obj.Data[0].Senses[0].POS
 	out := simpleOutput{
 		jaWord,
+		reading,
 		engWords,
 		pos,
 	}
