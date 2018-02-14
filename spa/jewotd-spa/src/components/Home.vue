@@ -4,9 +4,14 @@
     <div class="main__container">
       <table class="main__body">
         <tbody>
-          <tr>
+          <tr v-if="!katakana">
             <td>日本語：</td>
             <td>{{japanese}}</td>
+          </tr>
+          <tr>
+            <td v-if="!katakana">読み方: </td>
+            <td v-if="katakana"> 日本語: </td>
+            <td>{{reading}}</td>
           </tr>
           <tr>
             <td>英語：</td>
@@ -29,17 +34,22 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      japanese: '行く',
-      english: 'to go',
-      pos: '動詞'
+      japanese: '',
+      reading: '',
+      english: '',
+      pos: '',
+      katakana: false
     }
   },
   mounted () {
     httpService.getWords().then(resp => {
-      console.log(resp)
       this.japanese = resp.japanese
+      this.reading = resp.reading
       this.english = resp.english
       this.pos = resp.partOfSpeech
+      if (!this.japanese && this.reading) {
+        this.katakana = true
+      }
     })
   }
 }
