@@ -14,7 +14,9 @@ import (
 	"github.com/rs/cors"
 )
 
-var Words = wordsDict{}
+const apiKey = "trnsl.1.1.20180207T225403Z.5c84170a42a76523.0dbfe4e01c06ed2e14a1ed63227253eb3f60e35d"
+
+var words = wordsDict{}
 
 func main() {
 	startup()
@@ -61,7 +63,7 @@ func populateWords() {
 	if err != nil {
 		panic(err)
 	}
-	err = json.Unmarshal(body, &Words)
+	err = json.Unmarshal(body, &words)
 	if err != nil {
 		panic(err)
 	}
@@ -72,5 +74,5 @@ func populateWords() {
 func getRandomWord() string {
 	//url := fmt.Sprintf("https://nlp.fi.muni.cz/projekty/random_word/run.cgi?language_selection=en&word_selection=%s&model_selection=use&length_selection=&probability_selection=true",
 	//	"verbs")
-	return Words.Data[rand.Intn(len(Words.Data))].Word
+	return words.Data[rand.Intn(len(words.Data))].Word
 }

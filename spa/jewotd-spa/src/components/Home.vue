@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <h1 class="main__title">今日の単語</h1>
-    <div>
+    <div class="main__container">
       <table class="main__body">
         <tbody>
           <tr>
@@ -48,22 +48,29 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang="stylus">
 @charset "utf-8"
-.main {
-  background-color: gainsboro
-  width: 75%
-  margin: auto
+
+.main
+  background-color: rgba(255,255,255,.65)
+  width: 70%
+  margin: 0 auto
   margin-top: 5%
   font-family: "Yu Gothic"
+  border-radius: 30px
 
-  &__title {
+  &__title
+    padding-top: 20px
     width: 50%
     margin: auto
     text-align: center
-    border-bottom: 3px solid gray
-  }
-  &__body {
-    margin-left: 5%
+    border-bottom: 3px solid #808080
+    font-size: 45px
+    font-weight: lighter
+
+  &__body
+    margin: 0 auto
     font-size: 20px
-  }
-}
+
+  &__container
+    padding-top: 20px
+    padding-bottom: 30px
 </style>

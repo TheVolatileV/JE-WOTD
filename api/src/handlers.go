@@ -37,3 +37,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(out)
 }
+
+func translateWord(word string) {
+	//use yandex to translate the word
+}
