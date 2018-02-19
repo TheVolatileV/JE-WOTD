@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
+	"net/url"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -15,18 +16,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if word == "is" || word == "has" || word == "have" {
 		word = getRandomWord()
 	}
-	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", strings.ToLower(word)))
+	yandexWord := translateWord(word)
+	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", url.PathEscape(yandexWord)))
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 	obj := dict{}
 	if err = json.Unmarshal(body, &obj); err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 	jaWord := obj.Data[0].Japanese[0].Word
 	reading := obj.Data[0].Japanese[0].Reading
@@ -48,6 +50,26 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(out)
 }
 
-func translateWord(word string) {
+func translateWord(word string) string {
 	//use yandex to translate the word
+	type yandex struct {
+		Text string `xml:"text"`
+	}
+	resp, err := http.Get(fmt.Sprintf("https://translate.yandex.net/api/v1.5/tr/translate?key=%s&text=%s&lang=ja", apiKey, word))
+	if err != nil {
+		panic(err)
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	var jaWord yandex
+	err = xml.Unmarshal(body, &jaWord)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(jaWord.Text)
+	return jaWord.Text
 }
