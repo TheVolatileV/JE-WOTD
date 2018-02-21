@@ -5,6 +5,14 @@
 * Elijah Hursey
 * Evangeline Luciano
 
+## Live site
+
+[https://jewotd-spa.herokuapp.com/#/](https://jewotd-spa.herokuapp.com/#/)
+
+## Build instructions
+
+See either api or spa directories.
+
 ## Overview
 
 This project aims to provide a Word of the Day service for native Japanese speakers wanting to learn English.
