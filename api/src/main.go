@@ -24,7 +24,7 @@ func main() {
 }
 
 func startup() {
-	tcpPort := 80
+	tcpPort, _ := strconv.Atoi(os.Getenv("PORT"))
 	startServer(tcpPort)
 	populateWords()
 }

@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	obj := dict{}
 	if err = json.Unmarshal(body, &obj); err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	jaWord := obj.Data[0].Japanese[0].Word
 	reading := obj.Data[0].Japanese[0].Reading
@@ -55,7 +56,7 @@ func translateWord(word string) string {
 	type yandex struct {
 		Text string `xml:"text"`
 	}
-	resp, err := http.Get(fmt.Sprintf("https://translate.yandex.net/api/v1.5/tr/translate?key=%s&text=%s&lang=ja", apiKey, word))
+	resp, err := http.Get(fmt.Sprintf("https://translate.yandex.net/api/v1.5/tr/translate?key=%s&text=%s&lang=ja", apiKey, strings.ToLower(word)))
 	if err != nil {
 		panic(err)
 	}

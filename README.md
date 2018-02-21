@@ -12,7 +12,7 @@ This project aims to provide a Word of the Day service for native Japanese speak
 ## Feature List
 
 * A:
-  * Parse the EDICT dictionary file for the Japanese word, English word, and part of speech
+  * Use Jisho word search api to translate a random english word into Japanese
   * Webpage that serves a new word with the Japanese and English every day as well as the part of speach
   * API that handles providing the webpage with the words
 * B:
