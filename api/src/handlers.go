@@ -11,8 +11,7 @@ import (
 	"strings"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+func getWord() dict {
 	word := getRandomWord()
 	fmt.Println(word)
 	if word == "is" || word == "has" || word == "have" {
@@ -32,25 +31,41 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err = json.Unmarshal(body, &obj); err != nil {
 		fmt.Println(err)
 	}
-	jaWord := obj.Data[0].Japanese[0].Word
-	reading := obj.Data[0].Japanese[0].Reading
+	return obj
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	data := getWord()
+
+	out := subsetJisho(data)
+	json.NewEncoder(w).Encode(out)
+}
+
+func subsetJisho(data dict) simpleOutput {
+	if len(data.Data) == 0 {
+		newData := getWord()
+		fmt.Println("was empty")
+		return subsetJisho(newData)
+	}
+	jaWord := data.Data[0].Japanese[0].Word
+	reading := data.Data[0].Japanese[0].Reading
 
 	var engWords []string
-	if len(obj.Data[0].Senses[0].English) >= 4 {
-		engWords = obj.Data[0].Senses[0].English[:4]
+	if len(data.Data[0].Senses[0].English) >= 4 {
+		engWords = data.Data[0].Senses[0].English[:4]
 	} else {
-		engWords = obj.Data[0].Senses[0].English
+		engWords = data.Data[0].Senses[0].English
 	}
 
-	pos := obj.Data[0].Senses[0].POS
+	pos := data.Data[0].Senses[0].POS
 	japPos := getPartOfSpeech(pos)
-	out := simpleOutput{
+	return simpleOutput{
 		jaWord,
 		reading,
 		engWords,
 		japPos,
 	}
-	json.NewEncoder(w).Encode(out)
 }
 
 func translateWord(word string) string {

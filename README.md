@@ -1,6 +1,6 @@
 # Japanese to English Word of the Day
 
-### Developers
+## Developers
 
 * Elijah Hursey
 * Evangeline Luciano
