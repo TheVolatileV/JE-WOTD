@@ -72,10 +72,6 @@ func populateWords() {
 	}
 }
 
-// can do verbs, adjectives, and nouns
-// verbs, adjecs, nouns respectively
 func getRandomWord() string {
-	//url := fmt.Sprintf("https://nlp.fi.muni.cz/projekty/random_word/run.cgi?language_selection=en&word_selection=%s&model_selection=use&length_selection=&probability_selection=true",
-	//	"verbs")
 	return words.Data[rand.Intn(len(words.Data))].Word
 }
