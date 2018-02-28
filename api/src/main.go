@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
+	"time"
 
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
@@ -30,6 +31,9 @@ func startup() {
 	}
 	startServer(tcpPort)
 	populateWords()
+	currentWord = subsetJisho(getWord())
+	lastExecuted = time.Now()
+
 }
 
 func startServer(tcpPort int) {
