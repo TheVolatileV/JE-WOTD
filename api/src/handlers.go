@@ -28,6 +28,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(currentWord)
 }
 
+func forceNewWordHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	data := getWord()
+	currentWord = subsetJisho(data)
+	lastExecuted = time.Now()
+
+	json.NewEncoder(w).Encode(currentWord)
+}
+
 func getWord() dict {
 	word := getRandomWord()
 	fmt.Println(word)
