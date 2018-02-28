@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 )
 
@@ -42,11 +43,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pos := obj.Data[0].Senses[0].POS
+	japPos := getPartOfSpeech(pos)
 	out := simpleOutput{
 		jaWord,
 		reading,
 		engWords,
-		pos,
+		japPos,
 	}
 	json.NewEncoder(w).Encode(out)
 }
@@ -73,4 +75,30 @@ func translateWord(word string) string {
 	}
 	fmt.Println(jaWord.Text)
 	return jaWord.Text
+}
+
+func getPartOfSpeech(engPos []string) []string {
+	soln := make([]string, 0)
+	japPosMap := map[string]string{"adverbial noun": "名詞", "adverb": "副詞", "verb": "動詞",
+		"noun": "名詞", "adjective": "形容詞", "particle": "助詞"}
+	partOfSpeech, _ := regexp.Compile("(?i)(adverbial noun|adjective|noun|verb|adverb|particle)")
+
+	for _, element := range engPos {
+		if partOfSpeech.MatchString(element) {
+			japPos := japPosMap[strings.ToLower(partOfSpeech.FindString(element))]
+			if !inListAlready(japPos, soln) {
+				soln = append(soln, japPos)
+			}
+		}
+	}
+	return soln
+}
+
+func inListAlready(japPos string, soln []string) bool {
+	for _, elem := range soln {
+		if elem == japPos {
+			return true
+		}
+	}
+	return false
 }
