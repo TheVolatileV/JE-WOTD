@@ -9,7 +9,34 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 )
+
+var lastExecuted time.Time
+var refreshMin, _ = time.ParseDuration("24h")
+var currentWord simpleOutput
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if time.Now().After(lastExecuted.Add(refreshMin)) {
+		data := getWord()
+		currentWord = subsetJisho(data)
+		lastExecuted = time.Now()
+	}
+
+	json.NewEncoder(w).Encode(currentWord)
+}
+
+func forceNewWordHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	data := getWord()
+	currentWord = subsetJisho(data)
+	lastExecuted = time.Now()
+
+	json.NewEncoder(w).Encode(currentWord)
+}
 
 func getWord() dict {
 	word := getRandomWord()
@@ -17,7 +44,7 @@ func getWord() dict {
 	if word == "is" || word == "has" || word == "have" {
 		word = getRandomWord()
 	}
-	yandexWord := translateWord(word)
+	yandexWord := translateWord(strings.ToLower(word))
 	resp, err := http.Get(fmt.Sprintf("http://jisho.org/api/v1/search/words?keyword=%s", url.PathEscape(yandexWord)))
 	if err != nil {
 		panic(err)
@@ -32,14 +59,6 @@ func getWord() dict {
 		fmt.Println(err)
 	}
 	return obj
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	data := getWord()
-
-	out := subsetJisho(data)
-	json.NewEncoder(w).Encode(out)
 }
 
 func subsetJisho(data dict) simpleOutput {

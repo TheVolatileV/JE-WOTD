@@ -20,4 +20,10 @@ var routes = Routes{
 		"/api/v1",
 		handler,
 	},
+	Route{
+		"GetWordForce",
+		"GET",
+		"/api/v1/force",
+		forceNewWordHandler,
+	},
 }

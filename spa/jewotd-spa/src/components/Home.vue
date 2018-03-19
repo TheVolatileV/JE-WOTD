@@ -45,8 +45,8 @@ export default {
     httpService.getWords().then(resp => {
       this.japanese = resp.japanese
       this.reading = resp.reading
-      this.english = resp.english
-      this.pos = resp.partOfSpeech
+      this.english = resp.english.join(', ')
+      this.pos = resp.partOfSpeech.join(', ')
       if (!this.japanese && this.reading) {
         this.katakana = true
       }
