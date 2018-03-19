@@ -1,6 +1,9 @@
 <template>
   <div class="main">
-    <h1 class="main__title">今日の単語</h1>
+    <header>
+      <button class="main__title__btn" type="button" @click.prevent="forceNewWord">New Word (Dev)</button>
+      <h1 class="main__title">今日の単語</h1>
+    </header>
     <div class="main__container">
       <table class="main__body">
         <tbody>
@@ -41,6 +44,21 @@ export default {
       katakana: false
     }
   },
+  methods: {
+    forceNewWord () {
+      httpService.getForcedWord().then(resp => {
+        this.japanese = resp.japanese
+        this.reading = resp.reading
+        this.english = resp.english.join(', ')
+        this.pos = resp.partOfSpeech.join(', ')
+        if (!this.japanese && this.reading) {
+          this.katakana = true
+        } else {
+          this.katakana = false
+        }
+      })
+    }
+  },
   mounted () {
     httpService.getWords().then(resp => {
       this.japanese = resp.japanese
@@ -49,6 +67,8 @@ export default {
       this.pos = resp.partOfSpeech.join(', ')
       if (!this.japanese && this.reading) {
         this.katakana = true
+      } else {
+        this.katakana = false
       }
     })
   }
@@ -75,6 +95,22 @@ export default {
     border-bottom: 3px solid #808080
     font-size: 45px
     font-weight: lighter
+
+    &__btn
+      display: inline-flex
+      margin-left: 1.5em
+      padding:0
+      border: 0
+      background transparent
+      color: #253D56
+      font-size: 1.4rem
+      font-weight: 500
+      transition: color .2s
+      text-transform: uppercase
+
+      &:hover, &focus
+        color: #00AFDB
+        outline: none
 
   &__body
     margin: 0 auto
