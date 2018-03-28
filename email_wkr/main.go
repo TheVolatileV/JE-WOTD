@@ -19,25 +19,29 @@ type apiVals struct {
 	POS      []string `json:"partOfSpeech"`
 }
 
+// Mail the struct for general email structure
 type Mail struct {
-	senderId string
+	senderID string
 	toIds    []string
 	subject  string
 	body     string
 }
 
-type SmtpServer struct {
+// SMTPServer struct
+type SMTPServer struct {
 	host string
 	port string
 }
 
-func (s *SmtpServer) ServerName() string {
+// ServerName concats the host and port
+func (s *SMTPServer) ServerName() string {
 	return s.host + ":" + s.port
 }
 
+// BuildMessage puts all parts of mail together to create the complete "message"
 func (mail *Mail) BuildMessage() string {
 	message := ""
-	message += fmt.Sprintf("From: %s\r\n", mail.senderId)
+	message += fmt.Sprintf("From: %s\r\n", mail.senderID)
 	if len(mail.toIds) > 0 {
 		message += fmt.Sprintf("To: %s\r\n", strings.Join(mail.toIds, ";"))
 	}
@@ -73,7 +77,7 @@ func isKatakana(vals apiVals) bool {
 
 func main() {
 	mail := Mail{}
-	mail.senderId = "jpn.eng.wotd@gmail.com"
+	mail.senderID = "jpn.eng.wotd@gmail.com"
 	mail.toIds = []string{"jpn.eng.wotd@gmail.com"}
 	mail.subject = "This is the email subject"
 
@@ -87,9 +91,9 @@ func main() {
 					background-size: cover;
 					filter: blur(5px);
 					background-color: rgba(255,255,255,.65);
-					width: 70%%;
+					width: 70%;
 					margin: 0 auto;
-					margin-top: 5%%;
+					margin-top: 5%;
 					font-family: "Yu Gothic";
 					border-radius: 30px;
 					padding-top: 20px;
@@ -97,9 +101,9 @@ func main() {
 				}
 				.main__body {
 					background-color: rgba(255,255,255,.65);
-					width: 70%%;
+					width: 70%;
 					margin: 0 auto;
-					margin-top: 5%%;
+					margin-top: 5%;
 					font-family: "Yu Gothic";
 					border-radius: 30px;
 					margin: 0 auto;
@@ -150,25 +154,25 @@ func main() {
 
 	messageBody := mail.BuildMessage()
 
-	smtpServer := SmtpServer{host: "smtp.gmail.com", port: "465"}
+	SMTPServer := SMTPServer{host: "smtp.gmail.com", port: "465"}
 
-	log.Println(smtpServer.host)
+	log.Println(SMTPServer.host)
 	//build an auth
-	auth := smtp.PlainAuth("", mail.senderId, pass, smtpServer.host)
+	auth := smtp.PlainAuth("", mail.senderID, pass, SMTPServer.host)
 
 	// Gmail will reject connection if it's not secure
 	// TLS config
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
-		ServerName:         smtpServer.host,
+		ServerName:         SMTPServer.host,
 	}
 
-	conn, err := tls.Dial("tcp", smtpServer.ServerName(), tlsconfig)
+	conn, err := tls.Dial("tcp", SMTPServer.ServerName(), tlsconfig)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	client, err := smtp.NewClient(conn, smtpServer.host)
+	client, err := smtp.NewClient(conn, SMTPServer.host)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -179,7 +183,7 @@ func main() {
 	}
 
 	// step 2: add all from and to
-	if err = client.Mail(mail.senderId); err != nil {
+	if err = client.Mail(mail.senderID); err != nil {
 		log.Panic(err)
 	}
 	for _, k := range mail.toIds {
