@@ -31,6 +31,7 @@ func startup() {
 	}
 	startServer(tcpPort)
 	populateWords()
+	rand.Seed(time.Now().UTC().UnixNano())
 	currentWord = subsetJisho(getWord())
 	lastExecuted = time.Now()
 
