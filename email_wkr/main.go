@@ -220,6 +220,7 @@ func send() {
 
 func main() {
 	ticker := time.NewTicker(time.Hour * 24)
+	send()
 	go func() {
 		for range ticker.C {
 			send()
