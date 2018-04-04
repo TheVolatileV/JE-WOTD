@@ -8,9 +8,11 @@ import (
 	"net/http"
 	"net/smtp"
 	"strings"
+	"time"
 )
 
-var pass = "rhinosarereallygray"
+const senderID = ""
+const pass = ""
 
 type apiVals struct {
 	Japanese string   `json:"japanese,omitempty"`
@@ -21,10 +23,9 @@ type apiVals struct {
 
 // Mail the struct for general email structure
 type Mail struct {
-	senderID string
-	toIds    []string
-	subject  string
-	body     string
+	toIds   []string
+	subject string
+	body    string
 }
 
 // SMTPServer struct
@@ -41,7 +42,7 @@ func (s *SMTPServer) ServerName() string {
 // BuildMessage puts all parts of mail together to create the complete "message"
 func (mail *Mail) BuildMessage() string {
 	message := ""
-	message += fmt.Sprintf("From: %s\r\n", mail.senderID)
+	message += fmt.Sprintf("From: %s\r\n", senderID)
 	if len(mail.toIds) > 0 {
 		message += fmt.Sprintf("To: %s\r\n", strings.Join(mail.toIds, ";"))
 	}
@@ -75,10 +76,9 @@ func isKatakana(vals apiVals) bool {
 	return false
 }
 
-func main() {
+func initMail() Mail {
 	mail := Mail{}
-	mail.senderID = "jpn.eng.wotd@gmail.com"
-	mail.toIds = []string{"jpn.eng.wotd@gmail.com"}
+	mail.toIds = []string{"jpn.eng.wotd@gmail.com", "elijahnhursey@gmail.com"}
 	mail.subject = "This is the email subject"
 
 	vals := getData()
@@ -87,9 +87,6 @@ func main() {
 		<head>
 			<style>
 				.main__container {
-					background-image: url(https://jewotd-spa.herokuapp.com/static/img/city-cropped.c18385d.jpeg);
-					background-size: cover;
-					filter: blur(5px);
 					background-color: rgba(255,255,255,.65);
 					width: 70%;
 					margin: 0 auto;
@@ -111,10 +108,11 @@ func main() {
 				}
 			</style>
 		</head>
-		<body>
+		<body style="background-image: url(https://jewotd-spa.herokuapp.com/static/img/city-cropped.c18385d.jpeg);background-size: cover;filter: blur(5px);height: 100%;">
 			<div class="main__container">
 				<table class="main__body">
 					<tbody>`
+
 	if isKatakana(vals) {
 		mail.body += fmt.Sprintf(`
 						<tr>
@@ -151,17 +149,14 @@ func main() {
 		</body>
 	</html>`, vals.Japanese, vals.Reading, strings.Join(vals.English, ", "), strings.Join(vals.POS, ", "))
 	}
+	return mail
+}
 
-	messageBody := mail.BuildMessage()
-
+func authAndWrite(mail Mail, messageBody string) {
 	SMTPServer := SMTPServer{host: "smtp.gmail.com", port: "465"}
-
-	log.Println(SMTPServer.host)
 	//build an auth
-	auth := smtp.PlainAuth("", mail.senderID, pass, SMTPServer.host)
+	auth := smtp.PlainAuth("", senderID, pass, SMTPServer.host)
 
-	// Gmail will reject connection if it's not secure
-	// TLS config
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
 		ServerName:         SMTPServer.host,
@@ -183,7 +178,7 @@ func main() {
 	}
 
 	// step 2: add all from and to
-	if err = client.Mail(mail.senderID); err != nil {
+	if err = client.Mail(senderID); err != nil {
 		log.Panic(err)
 	}
 	for _, k := range mail.toIds {
@@ -211,5 +206,26 @@ func main() {
 	client.Quit()
 
 	log.Println("Mail sent successfully")
+}
 
+func send() {
+
+	mail := initMail()
+
+	messageBody := mail.BuildMessage()
+
+	authAndWrite(mail, messageBody)
+
+}
+
+func main() {
+	ticker := time.NewTicker(time.Hour * 24)
+	go func() {
+		for range ticker.C {
+			send()
+		}
+	}()
+	// there's gotta be a better way right?
+	for true {
+	}
 }
