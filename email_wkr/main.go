@@ -8,11 +8,10 @@ import (
 	"net/http"
 	"net/smtp"
 	"strings"
-	"time"
 )
 
-const senderID = ""
-const pass = ""
+const senderID = "jpn.eng.wotd@gmail.com"
+const pass = "rhinosarereallygray"
 
 type apiVals struct {
 	Japanese string   `json:"japanese,omitempty"`
@@ -78,7 +77,7 @@ func isKatakana(vals apiVals) bool {
 
 func initMail() Mail {
 	mail := Mail{}
-	mail.toIds = []string{"jpn.eng.wotd@gmail.com", "elijahnhursey@gmail.com"}
+	mail.toIds = []string{"jpn.eng.wotd@gmail.com"}
 	mail.subject = "This is the email subject"
 
 	vals := getData()
@@ -219,14 +218,14 @@ func send() {
 }
 
 func main() {
-	ticker := time.NewTicker(time.Hour * 24)
+	// ticker := time.NewTicker(time.Hour * 24)
 	send()
-	go func() {
-		for range ticker.C {
-			send()
-		}
-	}()
-	// there's gotta be a better way right?
-	for true {
-	}
+	// go func() {
+	// 	for range ticker.C {
+	// 		send()
+	// 	}
+	// }()
+	// // there's gotta be a better way right?
+	// for true {
+	// }
 }
