@@ -7,11 +7,12 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"os"
 	"strings"
 )
 
-const senderID = "jpn.eng.wotd@gmail.com"
-const pass = "rhinosarereallygray"
+var senderID string
+var pass string
 
 type apiVals struct {
 	Japanese string   `json:"japanese,omitempty"`
@@ -219,6 +220,8 @@ func send() {
 
 func main() {
 	// ticker := time.NewTicker(time.Hour * 24)
+	senderID = os.Getenv("email")
+	pass = os.Getenv("pass")
 	send()
 	// go func() {
 	// 	for range ticker.C {
