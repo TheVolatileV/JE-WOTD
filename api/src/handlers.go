@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -38,6 +39,25 @@ func forceNewWordHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(currentWord)
 }
 
+func insertEmailHandler(w http.ResponseWriter, r *http.Request) {
+	var email emailAddr
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		panic(err)
+	}
+	if err := r.Body.Close(); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		panic(err)
+	}
+	if err := json.Unmarshal(body, &email); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		panic(err)
+	}
+
+	err = db.insertEmail(email.Email, tableName)
+}
+
 func getWord() dict {
 	word := getRandomWord()
 	fmt.Println(word)
@@ -64,7 +84,6 @@ func getWord() dict {
 func subsetJisho(data dict) simpleOutput {
 	if len(data.Data) == 0 {
 		newData := getWord()
-		fmt.Println("was empty")
 		return subsetJisho(newData)
 	}
 	jaWord := data.Data[0].Japanese[0].Word

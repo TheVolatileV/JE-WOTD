@@ -86,6 +86,16 @@ func initMail() Mail {
 	<html>
 		<head>
 			<style>
+				.background {
+					background-image: url(https://jewotd-spa.herokuapp.com/static/img/city-cropped.c18385d.jpeg);
+					background-size: cover;
+					background-repeat: no-repeat;
+					background-position-y: -200px;
+					filter: blur(5px);
+					-webkit-filter: blur(5px);
+					height: 100%;
+					min-height: 630px;
+				}
 				.main__container {
 					background-color: rgba(255,255,255,.65);
 					width: 70%;
@@ -108,7 +118,7 @@ func initMail() Mail {
 				}
 			</style>
 		</head>
-		<body style="background-image: url(https://jewotd-spa.herokuapp.com/static/img/city-cropped.c18385d.jpeg);background-size: cover;filter: blur(5px);height: 100%;">
+		<body class="background">
 			<div class="main__container">
 				<table class="main__body">
 					<tbody>`
@@ -219,16 +229,7 @@ func send() {
 }
 
 func main() {
-	// ticker := time.NewTicker(time.Hour * 24)
 	senderID = os.Getenv("email")
 	pass = os.Getenv("pass")
 	send()
-	// go func() {
-	// 	for range ticker.C {
-	// 		send()
-	// 	}
-	// }()
-	// // there's gotta be a better way right?
-	// for true {
-	// }
 }

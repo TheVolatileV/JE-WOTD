@@ -42,3 +42,7 @@ type wordsDict struct {
 		Word string `json:"word"`
 	} `json:"data"`
 }
+
+type emailAddr struct {
+	Email string `json:"email"`
+}

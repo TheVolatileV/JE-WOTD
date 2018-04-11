@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -30,6 +31,9 @@ func startup() {
 		tcpPort = 80
 	}
 	startServer(tcpPort)
+	db.setup()
+
+	fmt.Println(db.insertEmail("elijahnhursey@gmail.com", "emails"))
 	populateWords()
 	rand.Seed(time.Now().UTC().UnixNano())
 	currentWord = subsetJisho(getWord())

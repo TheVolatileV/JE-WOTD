@@ -26,4 +26,10 @@ var routes = Routes{
 		"/api/v1/force",
 		forceNewWordHandler,
 	},
+	Route{
+		"Register",
+		"POST",
+		"/api/v1/register",
+		insertEmailHandler,
+	},
 }
