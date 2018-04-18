@@ -58,6 +58,15 @@ func insertEmailHandler(w http.ResponseWriter, r *http.Request) {
 	err = db.insertEmail(email.Email, tableName)
 }
 
+func getEmailListHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	list, err := db.scanTable(tableName)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	json.NewEncoder(w).Encode(list)
+}
+
 func getWord() dict {
 	word := getRandomWord()
 	fmt.Println(word)

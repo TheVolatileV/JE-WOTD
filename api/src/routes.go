@@ -32,4 +32,10 @@ var routes = Routes{
 		"/api/v1/register",
 		insertEmailHandler,
 	},
+	Route{
+		"GetAll",
+		"GET",
+		"/api/v1/list",
+		getEmailListHandler,
+	},
 }

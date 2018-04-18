@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/smtp"
@@ -32,6 +33,11 @@ type Mail struct {
 type SMTPServer struct {
 	host string
 	port string
+}
+
+// EmailObj struct
+type EmailObj struct {
+	Email string `json:"email"`
 }
 
 // ServerName concats the host and port
@@ -79,6 +85,26 @@ func isKatakana(vals apiVals) bool {
 func initMail() Mail {
 	mail := Mail{}
 	mail.toIds = []string{"jpn.eng.wotd@gmail.com"}
+	resp, err := http.Get("https://jewotd-api.herokuapp.com/api/v1/list")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+	var emailList []EmailObj
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = json.Unmarshal(body, &emailList)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, v := range emailList {
+		mail.toIds = append(mail.toIds, v.Email)
+	}
+
 	mail.subject = "This is the email subject"
 
 	vals := getData()
