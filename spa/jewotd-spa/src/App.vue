@@ -1,12 +1,30 @@
 <template>
   <div id="app" class="app">
+    <div class="register-email">
+      <input type="email" class="register-email-input" placeholder="Enter your email" v-model="email" />
+      <button class="main__title__btn" @click.prevent="registerEmail">Register</button>
+    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+import httpService from './services/http-service'
+
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      email: ''
+    }
+  },
+  methods: {
+    registerEmail () {
+      httpService.registerEmail(this.email).then(resp => {
+        console.log(resp)
+      })
+    }
+  }
 }
 </script>
 
@@ -29,4 +47,12 @@ export default {
   padding-left: 15%;
   padding-top: 10%;
   width: 75%;
+
+.register-email
+  margin-left: 60%
+
+.register-email-input
+  border: 2px
+  border-radius: 9px
+  padding: 3px 0px 1px 15px
 </style>

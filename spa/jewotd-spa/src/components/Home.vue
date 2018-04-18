@@ -103,7 +103,7 @@ export default {
       border: 0
       background transparent
       color: #253D56
-      font-size: 1.4rem
+      font-size: 1.2rem
       font-weight: 500
       transition: color .2s
       text-transform: uppercase
