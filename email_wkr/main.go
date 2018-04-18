@@ -87,17 +87,9 @@ func initMail() Mail {
 		<head>
 			<style>
 				.background {
-					background-image: url(https://jewotd-spa.herokuapp.com/static/img/city-cropped.c18385d.jpeg);
-					background-size: cover;
-					background-repeat: no-repeat;
-					background-position-y: -200px;
-					filter: blur(5px);
-					-webkit-filter: blur(5px);
 					height: 100%;
-					min-height: 630px;
 				}
 				.main__container {
-					background-color: rgba(255,255,255,.65);
 					width: 70%;
 					margin: 0 auto;
 					margin-top: 5%;
@@ -107,7 +99,6 @@ func initMail() Mail {
 					padding-bottom: 30px;
 				}
 				.main__body {
-					background-color: rgba(255,255,255,.65);
 					width: 70%;
 					margin: 0 auto;
 					margin-top: 5%;
@@ -115,11 +106,25 @@ func initMail() Mail {
 					border-radius: 30px;
 					margin: 0 auto;
 					font-size: 20px;
+					padding-left:110px;
+				}
+				.title__container {
+					width: 50%;
+					margin: auto;
+					text-align: center;
+					border-bottom: 1px solid black;
+					margin-bottom: 2%;
+				}
+				.title__text {
+					font-weight: lighter;
 				}
 			</style>
 		</head>
 		<body class="background">
 			<div class="main__container">
+			<div class="title__container">
+				<h1 class = "title__text">今日の言葉</h1>
+			</div>
 				<table class="main__body">
 					<tbody>`
 
