@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="app">
     <div class="register-email">
-      <input type="email" class="register-email-input" placeholder="Enter your email" v-model="email" />
-      <button class="main__title__btn" @click.prevent="registerEmail">Register</button>
+      <input type="email" class="register-email-input" placeholder="メールアドレスを入力" v-model="email" />
+      <button class="main__title__btn" @click.prevent="registerEmail">登録</button>
     </div>
     <router-view/>
   </div>
