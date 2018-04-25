@@ -105,7 +105,7 @@ func initMail() Mail {
 		mail.toIds = append(mail.toIds, v.Email)
 	}
 
-	mail.subject = "This is the email subject"
+	mail.subject = "毎日単語"
 
 	vals := getData()
 	mail.body = `<!DOCTYPE html>
