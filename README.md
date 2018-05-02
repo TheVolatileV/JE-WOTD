@@ -23,3 +23,8 @@ As these services uses many components and many other services it is not intende
 ### Running the SPA locally
 
 To run the spa locally all you need is to install [NPM](https://www.npmjs.com/) and [VueJS](https://vuejs.org/). After downloading and pulling the project from Github you will need to run `npm install` and `npm run dev` after navigating into the `spa/jewotd-spa` directory.
+
+## Resources
+
+* [Proposal](https://github.com/TheVolatileV/JE-WOTD/blob/master/Proposal.md)
+* [Technical Report](https://github.com/TheVolatileV/JE-WOTD/blob/master/Technical%20Report.md)
