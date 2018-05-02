@@ -1,8 +1,8 @@
-# Title
-
-JE-WOTD (Japanese English Word of the Day)
+# JE-WOTD (Japanese English Word of the Day)
 
 Elijah Hursey
+
+Evangeline Luciano
 
 4/18/2018
 
