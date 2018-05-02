@@ -10,7 +10,13 @@ A collection of applications that provide a word of the day service targeted at 
 
 ## Screenshots
 
+### Webpage
+
 ![webpage](https://user-images.githubusercontent.com/5075167/39551507-3950b7c6-4e33-11e8-9a86-a3e428f4d6f7.png)
+
+### Email
+
+![email](https://user-images.githubusercontent.com/5075167/39551643-cf1b6724-4e33-11e8-9ef1-51697bd17e25.png)
 
 ## User Instructions
 
