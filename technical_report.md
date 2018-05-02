@@ -36,6 +36,13 @@ The goal of this project is to provide a resource for Japanese people who want t
 
 1. [Introduction and Project Overview](#introduction-and-project-overview)
 2. [Design, Development, and Testing](#design-development-and-testing)
+	1. [Design Objective](#design-objective)
+	2. [General Design](#general-design)
+	3. [API](#api)
+	4. [Email Worker](#email-worker)
+	5. [SPA](#spa)
+	6. [Development Process](#development-process)
+	7. [Testing](#testing)
 3. [Results](#results)
 4. [Conclusion and Future Work](#conclusions-and-future-work)
 5. [References](#references)
@@ -52,13 +59,27 @@ The full list of features is random word selection, word translation, part of sp
 
 ## Design, Development, and Testing
 
-The design for this project is fairly simple and aims to follow microservice design principles. As such there are the previously stated three major components being the spa, api, and worker. Each of these services is deployed using Heroku. Originally I considered using AWS (Amazon Web Service) to deploy each service, but as I was already familiar with AWS from other projects I decided to use Heroku in an attempt to see what other options there are and how they compare. The api and worker are written in Go and the spa is written in the Javascript framework VueJS. I chose to use these languages and frameworks because I had previous experience with them and wanted to spend the semester making progress on my project instead of trying to stumble along while learning a new language. I also decided that I would be working with someone who had no experience in either of these languages which only further pushed me towards something I had experience with. Godeps was used as the dependency management package for all Go services and npm was used for the spa. ESLint was used to maintain clean javascript in the spa. The most complex of these is the api as it handles data compilation as well as email registration. 
+### Design Objective
 
-When the api is started the first thing it does check to make sure the emails table is available in DynamoDB. Next it pulls down a list of commonly used English words then it sets a seed based off of the current time in nanoseconds. After the seed is set it randomly gets a word from the list and holds the current time. From this point it simply waits for any incoming http requests on one of it’s four routes. The first route is the basic get word route which checks the current timestamp and if it has not been 24 hours since the last new word it simply returns the one it’s holding. If it has been more than 24 hours it will get a new word and return it. The process of translating a word is that it goes from English, is translated by Yandex, then the translated word is sent to Jisho which comes back with several possible translations and the reading and parts of speech. The second route is a force version of the first route that ignores the time check for debugging purposes. The third handles email registration and simply inserts the provided email into the DynamoDB table. Finally the fourth route scans the DynamoDB table and returns all stored emails. This endpoint is only used by the email worker when it determines who to email when it is triggered.
+The design for this project is fairly simple and aims to follow microservice design principles. As such there are the previously stated three major components being the spa, api, and worker. Each of these services is deployed using Heroku. 
+
+#### General Design
+
+Originally I considered using AWS (Amazon Web Service) to deploy each service, but as I was already familiar with AWS from other projects I decided to use Heroku in an attempt to see what other options there are and how they compare. The api and worker are written in Go and the spa is written in the Javascript framework VueJS. I chose to use these languages and frameworks because I had previous experience with them and wanted to spend the semester making progress on my project instead of trying to stumble along while learning a new language. I also decided that I would be working with someone who had no experience in either of these languages which only further pushed me towards something I had experience with. Godeps was used as the dependency management package for all Go services and npm was used for the spa. ESLint was used to maintain clean javascript in the spa. The most complex of these is the api as it handles data compilation as well as email registration. 
+
+#### API
+
+When the api is started the first thing it does check to make sure the emails table is available in DynamoDB. Next it pulls down a list of commonly used English words then it sets a seed based off of the current time in nanoseconds. After the seed is set it randomly gets a word from the list and holds the current time. From this point it simply waits for any incoming http requests on one of its four routes. The first route is the basic get word route which checks the current timestamp and if it has not been 24 hours since the last new word it simply returns the one its holding. If it has been more than 24 hours it will get a new word and return it. The process of translating a word is that it goes from English, is translated by Yandex, then the translated word is sent to Jisho which comes back with several possible translations and the reading and parts of speech. The second route is a force version of the first route that ignores the time check for debugging purposes. The third handles email registration and simply inserts the provided email into the DynamoDB table. Finally the fourth route scans the DynamoDB table and returns all stored emails. This endpoint is only used by the email worker when it determines who to email when it is triggered.
+
+#### Email Worker
 
 The email worker much simpler, it is designed such that it makes two requests to the api, one for the list of saved emails and the other for the current word. After these two requests complete it inserts the word data into an html template and sends it to each email address in the list it received from the api. This worker is designed to close when it is done executing as opposed to the api which runs continuously and is triggered by a timer add on in Heroku.
 
+#### SPA
+
 The spa is also quite simple, it simply fills a table with the data received by making a request to the api that is triggered whenever the page is loaded. If the provided data does not have data in the ‘Japanese’ field then it assumes that it is katakana and rearranges the table accordingly. For development purposes there is a new word button that uses the force route in the api to ignore the time restriction. There is also a text box at the top of a page that accepts an email from the user and sends the provided email to the api to be stored in DynamoDB.
+
+#### Development Process
 
 The first system that was developed was the api. In the beginning it simply got commonly used words and randomly selected one to be translated via Jisho. In this state each request would return a new word. Once this was working a simple web page was developed that displayed the information provided by the api in a simple table with essentially no styling.
 
@@ -68,6 +89,7 @@ With deployment was ironed out the Yandex translation middle step was added in t
 
 Now that we were getting consistent translations we added a timing system that would only provide a new word if it had been at least 24 hours since the last new word was retrieved. Previous to this change every time you refreshed the webpage or sent a request to the api you would get a new word and translation. As this change made debugging difficult we also added the force new word route and button in the spa. After that the only thing left was to get the email service working so we wrote the worker that takes a list of emails from DynamoDB and sends an email to each email in the table. 
 
+#### Testing
 As the spa and email worker are quite simple testing seemed unnecessary so I focused testing into the api. There are several different data transformations that occur within the api specifically when a new word is selected and translated. The main transformations are when the response from Jisho is subset into a condensed version, actually getting a word to start with, and changing the parts of speech received from Jisho to their Japanese counterparts. 
 
 ## Results
