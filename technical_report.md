@@ -33,11 +33,11 @@ The goal of this project is to provide a resource for Japanese people who want t
 
 # Table of Contents
 
-1. [Introduction and Project Overview](#Introduction-and-Project-Overview)
-2. [Design, Development, and Testing](#Design,-Development,-and-Testing)
-3. [Results](#Results)
-4. [Conclusion and Future Work](#Conclusion-and-Future-Work)
-5. [References](#References)
+1. [Introduction and Project Overview](#introduction-and-project-overview)
+2. [Design, Development, and Testing](#design-development-and-testing)
+3. [Results](#results)
+4. [Conclusion and Future Work](#conclusion-and-future-work)
+5. [References](#references)
 
 # Introduction and Project Overview
 
