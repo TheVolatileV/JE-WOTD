@@ -6,11 +6,11 @@ Evangeline Luciano
 
 4/18/2018
 
-# Abstract
+## Abstract
 
 The goal of this project is to provide a resource for Japanese people who want to learn English. The purpose of this resource is to provide a new word every day in their native language (Japanese) as well as a word in English for them to study and memorize. In addition to the Japanese and English word, the reading of the Japanese word (in the event that it is kanji) is provided as well as the part(s) of speech for the word in English. This is achieved by using a combination of 2 external resources, namely Jisho and Yandex, and 3 different apps which make up the provided resource. The 3 apps written for this project are the JE-WOTD-api, the email_wkr, and the JE-WOTD-spa (single page application). The results of the combination of these apps and external resources provides a website where a user can view a new word each day, and also an email service which sends the same data to a user’s email should they choose to register.
 
-# Keywords
+## Keywords
 * Go
 * VueJS
 * Javascript
@@ -29,9 +29,10 @@ The goal of this project is to provide a resource for Japanese people who want t
 * api
 * spa
 * wkr (worker)
+* email
 * microservice
 
-# Table of Contents
+**Table of Contents**
 
 1. [Introduction and Project Overview](#introduction-and-project-overview)
 2. [Design, Development, and Testing](#design-development-and-testing)
@@ -39,7 +40,7 @@ The goal of this project is to provide a resource for Japanese people who want t
 4. [Conclusion and Future Work](#conclusions-and-future-work)
 5. [References](#references)
 
-# Introduction and Project Overview
+## Introduction and Project Overview
 
 I began studying Japanese in May of 2015 and not long after began a 2 semester long study abroad in Japan where I took various language and culture classes. In my time in Japan I made many friends who were studying English just as fervently as I was studying Japanese and after a while I stumbled on a word of the day service that helped me learn many new vocabulary words. Having had such a pleasant experience I began looking for equivalent word of the day services but for my Japanese friends to use and quickly discovered that such a service did not really exist. Thus after a few years I decided I would make my own with objective being to create a user friendly and accurate word of the day service that could help native Japanese speakers begin expanding their English vocabulary. 
 
@@ -49,7 +50,7 @@ While JE-WOTD provides a word in Japanese, the reading for that word, the Englis
 
 The full list of features is random word selection, word translation, part of speech retrieval, web page to display data, email registration on website, daily email with content from web page, and dynamic formatting if a word is katakana. The api handles word selection, translation, part of speech retrieval, and email registration while the spa displays data to the user via a web page and the email worker sends out the same content displayed on the web page retrieved from the api every 24 hours.
 
-# Design, Development, and Testing
+## Design, Development, and Testing
 
 The design for this project is fairly simple and aims to follow microservice design principles. As such there are the previously stated three major components being the spa, api, and worker. Each of these services is deployed using Heroku. Originally I considered using AWS (Amazon Web Service) to deploy each service, but as I was already familiar with AWS from other projects I decided to use Heroku in an attempt to see what other options there are and how they compare. The api and worker are written in Go and the spa is written in the Javascript framework VueJS. I chose to use these languages and frameworks because I had previous experience with them and wanted to spend the semester making progress on my project instead of trying to stumble along while learning a new language. I also decided that I would be working with someone who had no experience in either of these languages which only further pushed me towards something I had experience with. Godeps was used as the dependency management package for all Go services and npm was used for the spa. ESLint was used to maintain clean javascript in the spa. The most complex of these is the api as it handles data compilation as well as email registration. 
 
@@ -69,28 +70,28 @@ Now that we were getting consistent translations we added a timing system that w
 
 As the spa and email worker are quite simple testing seemed unnecessary so I focused testing into the api. There are several different data transformations that occur within the api specifically when a new word is selected and translated. The main transformations are when the response from Jisho is subset into a condensed version, actually getting a word to start with, and changing the parts of speech received from Jisho to their Japanese counterparts. 
 
-# Results
+## Results
 
 The end product ended up being almost exactly what I had in mind when I started thinking about this project. The goal was to have an api that could serve a new word and translation with the parts of speech and reading of the Japanese if it was kanji. The only piece that I could not find a good way to do was having example sentences due to not being able to find a good resource. I also wanted to display these translations on a web page that was hosted in a way that my Japanese friends could use the service with minimal effort. This was achieved with the spa and deployment via Heroku. The last thing I wanted was an email service that would send emails daily so that you would be notified of the new word instead of having to go and check the website every day which was accomplished with the email worker and the DynamoDB table. From a user’s perspective you can navigate to the web page and daily you will see a new word and translation and should you choose you can easily register your email to receive a daily email. Since the early stages of this project I have had one of my friends in Japan using the website and providing me feedback and he has now registered with the email service as well and is actually using it to expand his English vocabulary. This sort of use is exactly what I intended for when I set out to start working on this project.
 
 There were actually very few problems that we encountered working on this project. At the very start there was some delay in starting just because finding a way to do translation that was simple took quite a bit of research. The largest problem was trying to get the different services deployed with Heroku while they all lived in a single Github repository. Another minor issue is that when one of the services has no traffic for a period of time longer than 30 minutes, since we are using the free tier of Heroku, it is shut down which can cause issues with the 24 hour timer set up between words. This is however negligible because I picture more people using the email service than the actual web page and I could upgrade to a version of Heroku that runs continuously very easily should the need arise.
 
-# Conclusions and Future Work
+## Conclusions and Future Work
 
 All in all I think that this project was very successful. Aside from having example sentences we were able to accomplish everything we set out to do. There is now a working word of the day service that anyone can use should they want and currently there is at least one native Japanese speaker actively using this project. 
 
 Thinking back on this project I am glad that we decided to use not only the languages that we used but also the other technologies (Heroku, DynamoDB). Go and VueJS are both designed so that you can very quickly get a working product that you can iterate on to improve. This made starting out very easy as we were able to get a working api and spa all in about two weeks time. Initially I did not want to use any AWS services, which was the primary reason I ended up using Heroku, but because of this and the add-ons available through Heroku the email worker was much easier to set up than I originally thought it would be.
 Future work that could be done are things like separating each service into its own Github repository, adding support for example sentences, switching to a more reliable translation service, and implementing a mobile friendly view for both the website and emails. The most useful of these would be the mobile friendly version as both the emails and website are practically unreadable without switching your orientation to landscape.
 
-# References
+## References
 
-* Go
-* Godeps
-* VueJS
-* NPM
-* Github
-* Heroku
-* AWS
-* DynamoDB
-* Jisho
-* Yandex
+* [Go]()
+* [Godeps]()
+* [VueJS]()
+* [NPM]()
+* [Github]()
+* [Heroku]()
+* [AWS]()
+* [DynamoDB]()
+* [Jisho]()
+* [Yandex]()
