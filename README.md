@@ -10,6 +10,8 @@ A collection of applications that provide a word of the day service targeted at 
 
 ## Screenshots
 
+![webpage](https://user-images.githubusercontent.com/5075167/39551507-3950b7c6-4e33-11e8-9a86-a3e428f4d6f7.png)
+
 ## User Instructions
 
 Navigate to [https://jewotd-spa.herokuapp.com/](https://jewotd-spa.herokuapp.com/)
