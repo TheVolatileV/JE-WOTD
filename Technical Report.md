@@ -35,6 +35,7 @@ The goal of this project is to provide a resource for Japanese people who want t
 **Table of Contents**
 
 1. [Introduction and Project Overview](#introduction-and-project-overview)
+    1. [Features](#features)
 2. [Design, Development, and Testing](#design-development-and-testing)
 	1. [Design Objective](#design-objective)
 	2. [General Design](#general-design)
@@ -51,11 +52,21 @@ The goal of this project is to provide a resource for Japanese people who want t
 
 I began studying Japanese in May of 2015 and not long after began a 2 semester long study abroad in Japan where I took various language and culture classes. In my time in Japan I made many friends who were studying English just as fervently as I was studying Japanese and after a while I stumbled on a word of the day service that helped me learn many new vocabulary words. Having had such a pleasant experience I began looking for equivalent word of the day services but for my Japanese friends to use and quickly discovered that such a service did not really exist. Thus after a few years I decided I would make my own with objective being to create a user friendly and accurate word of the day service that could help native Japanese speakers begin expanding their English vocabulary. 
 
-All of my Japanese friends used books that were organized by levels with level one being very simple words that you would use very frequently in conversation, such as mother and father. As you buy books of higher levels you get more difficult and less commonly used words. Since these books are so prevalent not many people even consider a solution like a word of the day service. There are obvious pros and cons to using a word of the day solution as opposed to these books. The pros of using a word of the day service is it is very easy to memorize one word every day and can even become a sort of challenge to use it in a conversation that day which can make memorizing the word fun and interactive. The cons would be that you only get a single word every day and if you are trying to learn a lot quickly this would be much too slow. However, used in tandem with a book or class material it provides something unexpected in what can become the mononity of memorizing lots of similar level vocabulary. 
+All of my Japanese friends used books that were organized by levels with level one being very simple words that you would use very frequently in conversation, such as mother and father. As you buy books of higher levels you get more difficult and less commonly used words. Since these books are so prevalent not many people even consider a solution like a word of the day service. There are obvious pros and cons to using a word of the day solution as opposed to these books. The pros of using a word of the day service is it is very easy to memorize one word every day and can even become a sort of challenge to use it in a conversation that day which can make memorizing the word fun and interactive. The cons would be that you only get a single word every day and if you are trying to learn a lot quickly this would be much too slow. However, used in tandem with a book or class material it provides something unexpected in what can become the monotony of memorizing lots of similar level vocabulary. 
 
 While JE-WOTD provides a word in Japanese, the reading for that word, the English translation, and parts of speech, there are other things that could be added that would give more information. Some of these things would be example sentences in both languages showing both a use case for the Japanese word and the English word. This would provide a whole world of context that can be quintessential in understanding the actual meaning of a word. Another useful feature would be including the dictionary pronunciation of the English word. This could be useful for particularly strange words (e.g. xylophone, Wednesday, February, island), or for users who are not familiar with pronunciation rules in English. 
 
-The full list of features is random word selection, word translation, part of speech retrieval, web page to display data, email registration on website, daily email with content from web page, and dynamic formatting if a word is katakana. The api handles word selection, translation, part of speech retrieval, and email registration while the spa displays data to the user via a web page and the email worker sends out the same content displayed on the web page retrieved from the api every 24 hours.
+#### Features
+
+* random word selection
+* word translation
+* part of speech retrieval
+* web page to display data
+* email registration on website
+* daily email with content from web page
+* dynamic formatting if a word is katakana
+
+The api handles word selection, translation, part of speech retrieval, and email registration while the spa displays data to the user via a web page and the email worker sends out the same content displayed on the web page retrieved from the api every 24 hours.
 
 ## Design, Development, and Testing
 
@@ -107,13 +118,22 @@ Future work that could be done are things like separating each service into its 
 
 ## References
 
-* [Go](https://golang.org/)
-* [Godeps](https://github.com/tools/godep)
-* [VueJS](https://vuejs.org/)
-* [NPM](https://www.npmjs.com/)
-* [Github](https://github.com/)
-* [Heroku](https://www.heroku.com/)
-* [AWS](https://aws.amazon.com/)
-* [DynamoDB](https://aws.amazon.com/dynamodb/)
-* [Jisho](https://jisho.org/)
-* [Yandex](https://yandex.com/)
+[1] "The Go Programming Language", Golang.org, 2018. [Online]. Available: [https://golang.org/](https://golang.org/). [Accessed: 06- May- 2018].
+
+[2] "tools/godep", GitHub, 2018. [Online]. Available: [https://github.com/tools/godep](https://github.com/tools/godep). [Accessed: 06- May- 2018].
+
+[3] "Vue.js", Vuejs.org, 2018. [Online]. Available: [https://vuejs.org/](https://vuejs.org/). [Accessed: 06- May- 2018].
+
+[4] "npm", Npmjs.com, 2018. [Online]. Available: [https://www.npmjs.com/](https://www.npmjs.com/). [Accessed: 06- May- 2018].
+
+[5] "Build software better, together", GitHub, 2018. [Online]. Available: [https://github.com/](https://github.com/). [Accessed: 06- May- 2018].
+
+[6] "Cloud Application Platform | Heroku", Heroku.com, 2018. [Online]. Available: [https://www.heroku.com/](https://www.heroku.com/). [Accessed: 06- May- 2018].
+
+[7] "Amazon Web Services (AWS) - Cloud Computing Services", Amazon Web Services, Inc., 2018. [Online]. Available: [https://aws.amazon.com/](https://aws.amazon.com/). [Accessed: 06- May- 2018].
+
+[8] "Amazon DynamoDB – NoSQL Cloud Database Service", Amazon Web Services, Inc., 2018. [Online]. Available: [https://aws.amazon.com/dynamodb/](https://aws.amazon.com/dynamodb/). [Accessed: 06- May- 2018].
+
+[9] "Jisho.org: Japanese Dictionary", Jisho.org, 2018. [Online]. Available: [https://jisho.org/](https://jisho.org/). [Accessed: 06- May- 2018].
+
+[10] "Yandex", Yandex, 2018. [Online]. Available: [https://yandex.com/](https://yandex.com/). [Accessed: 06- May- 2018].
